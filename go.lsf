@@ -1,0 +1,17 @@
+#BSUB -J triangle           # job name 'triangle'
+#BSUB -L /bin/bash          # use bash
+#BSUB -W 60                 # wall clock limit 60 minutes
+#BSUB -n 1                  # Request 1 core
+#BSUB -R "span[ptile=1]"    # Request 1 core per node.
+#BSUB -R "rusage[mem=16000]" # Request 16GB per process (CPU) for the job
+#BSUB -M 16000              # Set the per process memory limit to 8000MB.
+#BSUB -o go.%J              # Send stdout and stderr to go.jobid
+#BSUB -R "select[gpu]"      # Request a node with a GPU
+
+# run all the matrices, might take an hour
+module purge
+module load CUDA/8.0.44
+module load GCC/5.2.0
+module list
+make
+./go
